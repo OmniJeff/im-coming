@@ -1,0 +1,55 @@
+<html>
+<body>
+<div>Hello {{firstName}} {{lastName}}!</div>
+<form method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="rsvpForm" value="true" />
+    <input type="hidden" name="guestId" value="{{id}}" />
+    <input type="hidden" name="namedGuestId" value="{{namedGuestId}}" />
+    <label for="comingNo">I will attend:</label><br>
+    <input type="radio" id="comingNo" name="coming" value="no" onclick="ShowHideIsComing()" checked /> No<br />
+    <input type="radio" id="comingYes" name="coming" value="yes" onclick="ShowHideIsComing()" /> Yes<br />
+    <input type="hidden" name="firstName" id="firstName" value="{{firstName}}" />
+    <input type="hidden" name="lastName" id="lastName" value="{{lastName}}" />
+    <br />
+    <div id="isComingDiv" style="display: none">
+        <div style="display: {{hasNamedGuest}}">
+            <label for="namedGuestComing">Will {{namedGuestFirst}} {{namedGuestLast}} be attending?:</label><br />
+            <input type="radio" id="namedGuestComing" name="namedGuestComing" value="no" checked /> No<br />
+            <input type="radio" name="namedGuestComing" value="yes" /> Yes<br />
+            <input type="hidden" name="namedGuestFirst" id="namedGuestFirst" value="{{namedGuestFirst}}" />
+            <input type="hidden" name="namedGuestLast" id="namedGuestLast" value="{{namedGuestLast}}" />
+            <br />
+        </div>
+        <div style="display: {{hasOwnGuest}}">
+            <label for="ownGuestNo">Will you be bringing a guest?</label><br />
+            <input type="radio" id="ownGuestNo" name="ownGuestComing" value="no" onclick="ShowHideGuestFirstLast()" checked /> No<br />
+            <input type="radio" id="ownGuestYes" name="ownGuestComing" value="yes" onclick="ShowHideGuestFirstLast()"/> Yes<br />
+            <div id="GuestFirstLastDiv" style="display: none">
+                <label for="ownGuestFirstName">Your guest's first name: </label>
+                <input type="text" id="ownGuestFirstName" name="ownGuestFirstName" placeholder="First Name" /><br />
+                <label for="ownGuestLastName">Your guest's last name: </label>
+                <input type="text" name="ownGuestLastName" id="ownGuestLastName" placeholder="Last Name"/><br />
+            </div>
+        </div>
+        <br />
+    </div>
+    <input type="submit" value="Submit" />
+</form>
+</body>
+<script type="text/javascript">
+
+    function ShowHideIsComing() {
+        ShowHideDiv("comingYes", "isComingDiv");
+    }
+
+    function ShowHideGuestFirstLast() {
+        ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
+    }
+
+    function ShowHideDiv(chkForShowId, divId) {
+        var chkShow = document.getElementById(chkForShowId);
+        var div = document.getElementById(divId);
+        div.style.display = chkShow.checked ? "block" : "none";
+    }
+</script>
+</html>

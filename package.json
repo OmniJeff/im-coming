@@ -1,0 +1,31 @@
+{
+  "name": "flynn",
+  "version": "1.0.0",
+  "description": "Are you in?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmniJeff/flynn.git"
+  },
+  "keywords": [
+    "rsvp",
+    "wedding"
+  ],
+  "author": "Jeffrey White <jeffrey.white@me.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmniJeff/flynn/issues"
+  },
+  "homepage": "https://github.com/OmniJeff/flynn#readme",
+  "dependencies": {
+    "assert": "^1.3.0",
+    "hapi": "^12.1.0",
+    "inert": "^3.2.0",
+    "lodash": "^4.3.0",
+    "mongodb": "^2.1.7"
+  }
+}

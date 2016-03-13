@@ -1,0 +1,50 @@
+<html>
+<body>
+<form method="POST" enctype="multipart/form-data">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+    <br />
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+    <br />
+    <label for="lastName">ID:</label>
+    <input type="text" id="id" name="id" placeholder="ID" />
+    <br />
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Email" />
+    <br /><br />
+    <label for="ownGuestNo">Own Guest:</label><br>
+    <input type="radio" id="ownGuestNo" name="ownGuest" value="no" onclick="ShowHideNamedGuest()" checked /> No<br />
+    <input type="radio" id="ownGuestYes" name="ownGuest" value="yes" onclick="ShowHideNamedGuest()" /> Yes<br />
+    <br />
+    <div id="namedGuestDiv">
+        <label for="namedGuestNo">Named Guest:</label><br />
+        <input type="radio" id="namedGuestNo" name="namedGuestInvited" value="no" onclick="ShowHideNamedGuestFirstLast()" checked /> No<br />
+        <input type="radio" id="namedGuestYes" name="namedGuestInvited" value="yes" onclick="ShowHideNamedGuestFirstLast()" /> Yes<br />
+        <div id="namedGuestFirstLastDiv" style="display: none">
+            <input type="text" id="namedGuestFirst" name="namedGuestFirst" placeholder="First Name" /><br />
+            <input type="text" id="namedGuestLast" name="namedGuestLast" placeholder="Last Name"/><br />
+        </div>
+    <br />
+    </div>
+    <input type="submit" value="Submit" />
+    <p>{{err}}</p>
+</form>
+</body>
+<script type="text/javascript">
+
+    function ShowHideNamedGuest() {
+        ShowHideDiv("ownGuestNo", "namedGuestDiv");
+    }
+
+    function ShowHideNamedGuestFirstLast() {
+        ShowHideDiv("namedGuestYes", "namedGuestFirstLastDiv");
+    }
+
+    function ShowHideDiv(chkForShowId, divId) {
+        var chkShow = document.getElementById(chkForShowId);
+        var div = document.getElementById(divId);
+        div.style.display = chkShow.checked ? "block" : "none";
+    }
+</script>
+</html>
