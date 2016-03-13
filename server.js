@@ -2,7 +2,6 @@
 
 const Hapi = require('hapi');
 const Mongo = require('./mongo');
-const Path = require('path');
 const Hoek = require('hoek');
 
 // Create a server with a host and port

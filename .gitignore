@@ -1,4 +1,8 @@
 ### Node template
+
+#WebStorm
+.idea
+
 # Logs
 logs
 *.log

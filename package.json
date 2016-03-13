@@ -1,7 +1,7 @@
 {
-  "name": "flynn",
+  "name": "im-coming",
   "version": "1.0.0",
-  "description": "Are you in?",
+  "description": "simple rsvp app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OmniJeff/flynn.git"
+    "url": "git+https://github.com/OmniJeff/im-coming.git"
   },
   "keywords": [
     "rsvp",
@@ -18,9 +18,9 @@
   "author": "Jeffrey White <jeffrey.white@me.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OmniJeff/flynn/issues"
+    "url": "https://github.com/OmniJeff/im-coming/issues"
   },
-  "homepage": "https://github.com/OmniJeff/flynn#readme",
+  "homepage": "https://github.com/OmniJeff/im-coming#readme",
   "dependencies": {
     "assert": "^1.3.0",
     "hapi": "^12.1.0",
