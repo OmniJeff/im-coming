@@ -2,12 +2,14 @@ const Mongo = require('mongodb').MongoClient;
 var Assert = require('assert');
 
 const internals = {
-    db: null,
+    port: '27017',
+    ip: '165.225.130.156',
+    db: 'im-coming',
     guestsCollection: null,
     adminsCollection: null
 };
 
-Mongo.connect('mongodb://localhost:27017/flynn', (err, db) => {
+Mongo.connect('mongodb://' + internals.ip + ':' + internals.port + '/' + internals.db, (err, db) => {
 
     Assert.equal(null, err);
     console.log("Connected to Mongo");
