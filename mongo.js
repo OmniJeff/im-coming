@@ -86,7 +86,7 @@ module.exports = {
 
         internals.guestsCollection.updateOne({ id: id }, guestUpdate, function (err, result) {
             Assert.equal(err, null);
-            Assert.equal(1, result.result.n);
+            //Assert.equal(1, result.result.n);
             console.log('Updated ' + id + ' to ' + JSON.stringify(guestUpdate));
             callback(result);
         });

@@ -7,7 +7,7 @@ const Hoek = require('hoek');
 // Create a server with a host and port
 const server = new Hapi.Server();
 server.connection({
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 8777
 });
 
@@ -26,9 +26,7 @@ server.register(require('vision'), (err) => {
             html: require('handlebars')
         },
         relativeTo: __dirname,
-        path: 'views',
-        layoutPath: 'views/layout',
-        helpersPath: 'views/helpers'
+        path: 'views'
     });
 });
 
@@ -63,23 +61,18 @@ function processRsvp(request, reply) {
         console.log('Guest updated for rsvp: ' + request.payload.guestId);
         console.log('ownGuestComing = ' + request.payload.ownGuestComing);
 
-        if (request.payload.namedGuestComing === 'yes') {
-
-            var namedGuest = {
-                id: request.payload.namedGuestId,
+        var namedGuestUpdate = {
+            $set: {
                 coming: request.payload.namedGuestComing,
                 namedGuestComing: request.payload.coming
-            };
+            }
+        };
 
-            Mongo.addNewGuest(namedGuest, (res) => {
-                console.log('Named guest added: ' + require('util').inspect(res));
+        Mongo.updateGuest(request.payload.namedGuestId, namedGuestUpdate, (res) => {
+            console.log('Named guest added: ' + require('util').inspect(res));
 
-                return reply('we got your rsvp!!<br /><br />' + 'request.payload = ' + require('util').inspect(request.payload));
-            });
-        }
-        else {
             return reply('we got your rsvp!!<br /><br />' + 'request.payload = ' + require('util').inspect(request.payload));
-        }
+        });
     });
 }
 
@@ -177,6 +170,17 @@ server.route({
         Mongo.getGuest(query, (guest) => {
 
             return reply(JSON.stringify(guest));
+        });
+    }
+});
+
+server.route({
+    method: 'GET',
+    path:'/{eventId}/guests',
+    handler: function (request, reply) {
+
+        Mongo.getAllGuests((res) => {
+            return reply(JSON.stringify(res));
         });
     }
 });

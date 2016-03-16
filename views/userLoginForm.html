@@ -1,6 +1,7 @@
 <html>
+<head><script src="http://code.jquery.com/jquery-1.10.1.min.js"></script></head>
 <body>
-<form method="POST" enctype="multipart/form-data">
+<form id="loginForm" method="POST" enctype="multipart/form-data" action="http://http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
     <input type="hidden" name="loginForm" value="true" />
     <label for="firstName">First Name:</label>
     <input type="text" id="firstName" name="firstName" placeholder="First Name" />
@@ -11,5 +12,41 @@
     <input type="submit" value="Submit" />
     <p>{{err}}</p>
 </form>
+<div id="loginResponse"></div>
 </body>
+<script type="text/javascript">
+
+    $("#loginForm").submit(function(event)
+    {
+        /* stop form from submitting normally */
+        event.preventDefault();
+
+        /* get some values from elements on the page: */
+        var $form = $( this ),
+                $submit = $form.find( 'button[type="submit"]' ),
+                firstname_value = $form.find( 'input[name="firstName"]' ).val(),
+                lastname_value = $form.find( 'input[name="lastName"]' ).val(),
+                loginform_value = $form.find('input[name="loginForm"]').val(),
+                url = $form.attr('action');
+
+        /* Send the data using post */
+        var posting = $.post( url, {
+            firstName: firstname_value,
+            lastName: lastname_value,
+            loginForm: loginform_value
+        });
+
+        posting.done(function( data )
+        {
+            /* Put the results in a div */
+            $( "#loginResponse" ).html(data);
+
+            /* Change the button text. */
+            $submit.text('Logged in, Thank you');
+
+            /* Disable the button. */
+            $submit.attr("disabled", true);
+        });
+    });
+</script>
 </html>
