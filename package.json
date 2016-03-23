@@ -1,6 +1,6 @@
 {
   "name": "im-coming",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "simple rsvp app",
   "main": "server.js",
   "scripts": {
@@ -29,6 +29,8 @@
     "inert": "^3.2.0",
     "lodash": "^4.3.0",
     "mongodb": "^2.1.7",
+    "nodemailer": "^2.3.0",
+    "sendgrid": "^2.0.0",
     "vision": "^4.0.1"
   }
 }

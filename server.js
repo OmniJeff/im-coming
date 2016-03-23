@@ -3,6 +3,7 @@
 const Hapi = require('hapi');
 const Mongo = require('./mongo');
 const Hoek = require('hoek');
+const Mail = require('./mail');
 
 // Create a server with a host and port
 const server = new Hapi.Server();
@@ -99,6 +100,15 @@ function processRsvp(request, reply) {
 
             console.log('payload.coming = ' + payload.coming);
             console.log('replyMsg = ' + replyMsg);
+
+            Mail('We got an RSVP!', replyMsg.replace('We got your rsvp!', ''), function (err, res) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("Message sent: " + res.message);
+                }
+            });
 
             return reply(replyMsg);
         });
