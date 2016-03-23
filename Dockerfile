@@ -11,7 +11,7 @@ COPY views/ /usr/src/app/views/
 
 # Install app dependencies
 #COPY package.json /usr/src/app/
-RUN cd /usr/src/app
+RUN cd /usr/src/app/
 RUN npm install
 
 EXPOSE 8777

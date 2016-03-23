@@ -1,18 +1,53 @@
 <html>
-<head><script src="http://code.jquery.com/jquery-1.10.1.min.js"></script></head>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+    <link href='http://static1.squarespace.com/static/sitecss/56a3afb276d99c0aad26a222/4/56c0fa52c6fc08567a792311/56c0fa53c6fc08567a79232e/0-05142015/1458612929432/site.css?&filterFeatures=false' rel='stylesheet' type='text/css'>
+    <style>
+        h3 {
+            font-family: 'Source Sans Pro', sans-serif;
+            text-transform: uppercase;
+        }
+
+        body {
+            font-family: "ff-meta-serif-web-pro";
+            font-size: 16px;
+            line-height: 1.6em;
+            letter-spacing: 0px;
+            font-weight: 500;
+            font-style: normal;
+        }
+        input.srl{
+            margin-left: 4px;
+        }
+        div.mycenter iframe{
+            display: block;
+            margin-left: auto;
+            -webkit-overflow-scrolling: touch; overflow: auto;
+        }
+        div.fancy{
+            font-family: 'Source Sans Pro', sans-serif;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
 <body>
-<form id="loginForm" method="POST" enctype="multipart/form-data" action="http://http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
-    <input type="hidden" name="loginForm" value="true" />
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName" placeholder="First Name" />
-    <br />
-    <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
-    <br />
-    <input type="submit" value="Submit" />
-    <p>{{err}}</p>
-</form>
-<div id="loginResponse"></div>
+<div id="loginResponse">
+    <form id="loginForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
+    <!--form id="loginForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp"-->
+        <input type="hidden" name="loginForm" value="true" />
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" style="float:right" />
+        <br />
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" style="float:right" />
+        <br />
+        <input class="srl" id="submit1" type="submit" value="Submit" style="float:right" />
+    </form>
+    <div id="errResponse">
+        <p>{{err}}</p>
+    </div>
+</div>
 </body>
 <script type="text/javascript">
 
@@ -23,7 +58,7 @@
 
         /* get some values from elements on the page: */
         var $form = $( this ),
-                $submit = $form.find( 'button[type="submit"]' ),
+                $submit = $form.find( 'button[id="submit1"]' ),
                 firstname_value = $form.find( 'input[name="firstName"]' ).val(),
                 lastname_value = $form.find( 'input[name="lastName"]' ).val(),
                 loginform_value = $form.find('input[name="loginForm"]').val(),
@@ -38,14 +73,15 @@
 
         posting.done(function( data )
         {
+
             /* Put the results in a div */
             $( "#loginResponse" ).html(data);
 
             /* Change the button text. */
-            $submit.text('Logged in, Thank you');
+            //$submit.text('Logged in, Thank you');
 
             /* Disable the button. */
-            $submit.attr("disabled", true);
+            //$submit.attr("disabled", true);
         });
     });
 </script>

@@ -1,0 +1,2 @@
+docker build -t im-coming .
+docker run -d -P --label triton.cns.services=im-coming-svc im-coming

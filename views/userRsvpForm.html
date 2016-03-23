@@ -1,55 +1,112 @@
 <html>
+<head>
+
+</head>
 <body>
-<div>Hello {{firstName}} {{lastName}}!</div>
-<form method="POST" enctype="multipart/form-data">
+<h3 class="text-align-center">Hello {{firstName}} {{lastName}}!</h3>
+<form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
+<!--form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp"-->
     <input type="hidden" name="rsvpForm" value="true" />
     <input type="hidden" name="guestId" value="{{id}}" />
     <input type="hidden" name="namedGuestId" value="{{namedGuestId}}" />
     <label for="comingNo">I will attend:</label><br>
-    <input type="radio" id="comingNo" name="coming" value="no" onclick="ShowHideIsComing()" checked /> No<br />
-    <input type="radio" id="comingYes" name="coming" value="yes" onclick="ShowHideIsComing()" /> Yes<br />
+    <input class="srl" type="radio" id="comingNo" name="coming" value="no" checked/> No<br />
+    <input class="srl" type="radio" id="comingYes" name="coming" value="yes"" /> Yes<br />
     <input type="hidden" name="firstName" id="firstName" value="{{firstName}}" />
     <input type="hidden" name="lastName" id="lastName" value="{{lastName}}" />
     <br />
-    <div id="isComingDiv" style="display: none">
-        <div style="display: {{hasNamedGuest}}">
-            <label for="namedGuestComing">Will {{namedGuestFirst}} {{namedGuestLast}} be attending?:</label><br />
-            <input type="radio" id="namedGuestComing" name="namedGuestComing" value="no" checked /> No<br />
-            <input type="radio" name="namedGuestComing" value="yes" /> Yes<br />
-            <input type="hidden" name="namedGuestFirst" id="namedGuestFirst" value="{{namedGuestFirst}}" />
-            <input type="hidden" name="namedGuestLast" id="namedGuestLast" value="{{namedGuestLast}}" />
-            <br />
-        </div>
-        <div style="display: {{hasOwnGuest}}">
-            <label for="ownGuestNo">Will you be bringing a guest?</label><br />
-            <input type="radio" id="ownGuestNo" name="ownGuestComing" value="no" onclick="ShowHideGuestFirstLast()" checked /> No<br />
-            <input type="radio" id="ownGuestYes" name="ownGuestComing" value="yes" onclick="ShowHideGuestFirstLast()"/> Yes<br />
-            <div id="GuestFirstLastDiv" style="display: none">
-                <label for="ownGuestFirstName">Your guest's first name: </label>
-                <input type="text" id="ownGuestFirstName" name="ownGuestFirstName" placeholder="First Name" /><br />
-                <label for="ownGuestLastName">Your guest's last name: </label>
-                <input type="text" name="ownGuestLastName" id="ownGuestLastName" placeholder="Last Name"/><br />
-            </div>
-        </div>
+    <div style="display:{{hasNamedGuest}}">
+        <label for="namedGuestComing">Will {{namedGuestFirst}} {{namedGuestLast}} be attending?</label><br />
+        <input class="srl" type="radio" id="namedGuestComing" name="namedGuestComing" value="no" checked/> No<br />
+        <input class="srl" type="radio" name="namedGuestComing" value="yes" /> Yes<br />
+        <input type="hidden" name="namedGuestFirst" id="namedGuestFirst" value="{{namedGuestFirst}}" />
+        <input type="hidden" name="namedGuestLast" id="namedGuestLast" value="{{namedGuestLast}}" />
         <br />
     </div>
-    <input type="submit" value="Submit" />
+    <div style="display:{{hasOwnGuest}}">
+        <label for="ownGuestNo">Will you be bringing a guest?</label><br />
+        <input class="srl" type="radio" id="ownGuestNo" name="ownGuestComing" value="no" onclick="ShowHideGuestFirstLast()" checked /> No<br />
+        <input class="srl" type="radio" id="ownGuestYes" name="ownGuestComing" value="yes" onclick="ShowHideGuestFirstLast()"/> Yes<br />
+        <div id="GuestFirstLastDiv" style="display: none">
+            <label for="ownGuestFirstName">Your guest's first name: </label>
+            <input type="text" id="ownGuestFirstName" name="ownGuestFirstName" placeholder="First Name" /><br />
+            <label for="ownGuestLastName">Your guest's last name: </label>
+            <input type="text" name="ownGuestLastName" id="ownGuestLastName" placeholder="Last Name"/><br />
+        </div>
+    </div>
+    <input class="srl" id="submit2" type="submit" value="Submit" />
 </form>
+<div style="font-family: 'Source Sans Pro', sans-serif;text-transform: uppercase;" id="rsvpResponse"></div>
 </body>
 <script type="text/javascript">
 
-    function ShowHideIsComing() {
-        ShowHideDiv("comingYes", "isComingDiv");
-    }
+        function ShowHideGuestFirstLast() {
+            ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
+        }
 
-    function ShowHideGuestFirstLast() {
-        ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
-    }
+        function ShowHideDiv(chkForShowId, divId) {
 
-    function ShowHideDiv(chkForShowId, divId) {
-        var chkShow = document.getElementById(chkForShowId);
-        var div = document.getElementById(divId);
-        div.style.display = chkShow.checked ? "block" : "none";
-    }
+            console.log('chkForShowId = ' + chkForShowId);
+            console.log('divId = ' + divId);
+
+            var chkShow = document.getElementById(chkForShowId);
+            console.log('chkShow.checked = ' + chkShow.checked);
+            var div = document.getElementById(divId);
+            div.style.display = chkShow.checked ? "block" : "none";
+            console.log('div.style.display = ' + div.style.display);
+        }
+
+        $("#rsvpForm").submit(function (event) {
+            /* stop form from submitting normally */
+            event.preventDefault();
+
+            console.log('coming = ' + $('input:radio[name=coming]:checked').val());
+
+            /* get some values from elements on the page: */
+            var $form = $(this),
+                    $submit = $form.find('button[id="submit2"]'),
+                    rsvpform_value = $form.find('input[name="rsvpForm"]').val(),
+                    guestid_value = $form.find('input[name="guestId"]').val(),
+                    namedguestid_value = $form.find('input[name="namedGuestId"]').val(),
+                    coming_value = $('input:radio[name=coming]:checked').val(),
+                    firstname_value = $form.find('input[name="firstName"]').val(),
+                    lastname_value = $form.find('input[name="lastName"]').val(),
+                    namedguestcoming_value = $('input:radio[name=namedGuestComing]:checked').val(),
+                    namedguestfirst_value = $form.find('input[name="namedGuestFirst"]').val(),
+                    namedguestlast_value = $form.find('input[name="namedGuestLast"]').val(),
+                    ownguestcoming_value = $form.find('input[name="ownGuestComing"]').val(),
+                    ownguestfirstname_value = $form.find('input[name="ownGuestFirstName"]').val(),
+                    ownguestlastname_value = $form.find('input[name="ownGuestLastName"]').val(),
+                    url = $form.attr('action');
+
+            console.log($form);
+
+            /* Send the data using post */
+            var posting = $.post(url, {
+                rsvpForm: rsvpform_value,
+                guestId: guestid_value,
+                namedGuestId: namedguestid_value,
+                coming: coming_value,
+                firstName: firstname_value,
+                lastName: lastname_value,
+                namedGuestComing: namedguestcoming_value,
+                namedGuestFirst: namedguestfirst_value,
+                namedGuestLast: namedguestlast_value,
+                ownGuestComing: ownguestcoming_value,
+                ownGuestFirstName: ownguestfirstname_value,
+                ownGuestLastName: ownguestlastname_value
+            });
+
+            posting.done(function (data) {
+                /* Put the results in a div */
+                $("#rsvpResponse").html(data);
+
+                /* Change the button text. */
+                $submit.text('Logged in, Thank you');
+
+                /* Disable the button. */
+                $submit.attr("disabled", true);
+            });
+        });
 </script>
 </html>

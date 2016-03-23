@@ -33,6 +33,7 @@ server.register(require('vision'), (err) => {
 server.route({
     method: 'GET',
     path: '/{eventId}/rsvp',
+    config: { cors: true },
     handler: function (request, reply) {
 
         // Solicit user first and last name
@@ -42,36 +43,64 @@ server.route({
 
 function processRsvp(request, reply) {
 
+    var payload = request.payload;
+
     console.log('processRsvp');
-    console.log('request.payload = ' + require('util').inspect(request.payload));
-    console.log('request.payload.lastName = ' + request.payload.lastName);
+    console.log('request.payload = ' + require('util').inspect(payload));
+    console.log('request.payload.lastName = ' + payload.lastName);
 
     var guestUpdate = {
         $set: {
-            coming: request.payload.coming,
-            namedGuestComing: request.payload.namedGuestComing,
-            ownGuestComing: request.payload.ownGuestComing,
-            ownGuestFirstName: request.payload.ownGuestFirstName,
-            ownGuestLastName: request.payload.ownGuestLastName
+            coming: payload.coming,
+            namedGuestComing: payload.namedGuestComing,
+            ownGuestComing: payload.ownGuestComing,
+            ownGuestFirstName: payload.ownGuestFirstName,
+            ownGuestLastName: payload.ownGuestLastName
         }
     };
 
     Mongo.updateGuest(request.payload.guestId, guestUpdate, (res) => {
 
-        console.log('Guest updated for rsvp: ' + request.payload.guestId);
-        console.log('ownGuestComing = ' + request.payload.ownGuestComing);
+        console.log('Guest updated for rsvp: ' + payload.guestId);
+        console.log('ownGuestComing = ' + payload.ownGuestComing);
 
         var namedGuestUpdate = {
             $set: {
-                coming: request.payload.namedGuestComing,
-                namedGuestComing: request.payload.coming
+                coming: payload.namedGuestComing,
+                namedGuestComing: payload.coming
             }
         };
 
-        Mongo.updateGuest(request.payload.namedGuestId, namedGuestUpdate, (res) => {
+        Mongo.updateGuest(payload.namedGuestId, namedGuestUpdate, (res) => {
             console.log('Named guest added: ' + require('util').inspect(res));
 
-            return reply('we got your rsvp!!<br /><br />' + 'request.payload = ' + require('util').inspect(request.payload));
+            var replyMsg = 'We got your rsvp!<br />';
+
+            if (payload.coming === 'yes') {
+                replyMsg = replyMsg.concat(payload.firstName + ' ' + payload.lastName + ' is coming');
+            }
+            else {
+                replyMsg = replyMsg.concat(payload.firstName + ' ' + payload.lastName + ' is not coming');
+            }
+
+            if (payload.namedGuestComing === 'yes') {
+                replyMsg = replyMsg.concat('<br />' + payload.namedGuestFirst + ' ' + payload.namedGuestLast + ' is coming');
+            }
+            else {
+                replyMsg = replyMsg.concat('<br />' + payload.namedGuestFirst + ' ' + payload.namedGuestLast + ' is not coming');
+            }
+
+            if (payload.ownGuestComing === 'yes') {
+                replyMsg = replyMsg.concat('<br />' + payload.ownGuestFirstName + ' ' + payload.ownGuestLastName + ' is coming');
+            }
+            else {
+                replyMsg.concat('<br />' + payload.ownGuestFirstName + ' ' + payload.ownGuestLastName + ' is not coming');
+            }
+
+            console.log('payload.coming = ' + payload.coming);
+            console.log('replyMsg = ' + replyMsg);
+
+            return reply(replyMsg);
         });
     });
 }
@@ -141,6 +170,7 @@ function processLogin(request, reply) {
 server.route({
     method: 'POST',
     path: '/{eventId}/rsvp',
+    config: { cors: true },
     handler: function (request, reply) {
 
         if (request.payload.rsvpForm) {
@@ -158,6 +188,7 @@ server.route({
 server.route({
     method: 'GET',
     path: '/{eventId}/guest/{guestId}',
+    config: { cors: true },
     handler: function (request, reply) {
 
         // Return guest
@@ -177,6 +208,7 @@ server.route({
 server.route({
     method: 'GET',
     path:'/{eventId}/guests',
+    config: { cors: true },
     handler: function (request, reply) {
 
         Mongo.getAllGuests((res) => {
@@ -188,6 +220,7 @@ server.route({
 server.route({
     method: 'PUT',
     path:'/{eventId}/guest/{guestId}',
+    config: { cors: true },
     handler: function (request, reply) {
 
         // Update guest
@@ -199,6 +232,7 @@ server.route({
 server.route({
     method: 'POST',
     path:'/{eventId}/guest/{guestId}',
+    config: { cors: true },
     handler: function (request, reply) {
 
         // Add new guest
@@ -210,6 +244,7 @@ server.route({
 server.route({
     method: 'GET',
     path:'/{eventId}/admin',
+    config: { cors: true },
     handler: function (request, reply) {
 
         // Display page showing all guests with options to
@@ -223,6 +258,7 @@ server.route({
 server.route({
     method: 'POST',
     path:'/{eventId}/admin',
+    config: { cors: true },
     handler: function (request, reply) {
 
         console.log('post admin');
