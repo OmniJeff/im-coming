@@ -4,14 +4,14 @@
 </head>
 <body>
 <h3 class="text-align-center">Hello {{firstName}} {{lastName}}!</h3>
-<form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
-<!--form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp"-->
+<!--form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp"-->
+<form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp">
     <input type="hidden" name="rsvpForm" value="true" />
     <input type="hidden" name="guestId" value="{{id}}" />
     <input type="hidden" name="namedGuestId" value="{{namedGuestId}}" />
     <label for="comingNo">I will attend:</label><br>
-    <input class="srl" type="radio" id="comingNo" name="coming" value="no" onclick="ShowHideOwnGuest()" checked/> No<br />
-    <input class="srl" type="radio" id="comingYes" name="coming" value="yes"  onclick="ShowHideOwnGuest()" /> Yes<br />
+    <input class="srl" type="radio" id="comingNo" name="coming" value="no" onclick="ShowHideOwnGuest('{{hasOwnGuest}}')" checked/> No<br />
+    <input class="srl" type="radio" id="comingYes" name="coming" value="yes"  onclick="ShowHideOwnGuest('{{hasOwnGuest}}')" /> Yes<br />
     <input type="hidden" name="firstName" id="firstName" value="{{firstName}}" />
     <input type="hidden" name="lastName" id="lastName" value="{{lastName}}" />
     <br />
@@ -46,8 +46,10 @@
         ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
     }
 
-    function ShowHideOwnGuest() {
-        ShowHideDiv("comingYes", "OwnGuestDiv");
+    function ShowHideOwnGuest(hasOwnGuest) {
+        if (hasOwnGuest === 'block') {
+            ShowHideDiv("comingYes", "OwnGuestDiv");
+        }
     }
 
     function ShowHideDiv(chkForShowId, divId) {
@@ -97,6 +99,7 @@
             coming: coming_value,
             firstName: firstname_value,
             lastName: lastname_value,
+            hasNamedGuest: hasnamedguest_value,
             namedGuestComing: namedguestcoming_value,
             namedGuestFirst: namedguestfirst_value,
             namedGuestLast: namedguestlast_value,
