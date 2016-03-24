@@ -10,12 +10,13 @@
     <input type="hidden" name="guestId" value="{{id}}" />
     <input type="hidden" name="namedGuestId" value="{{namedGuestId}}" />
     <label for="comingNo">I will attend:</label><br>
-    <input class="srl" type="radio" id="comingNo" name="coming" value="no" checked/> No<br />
-    <input class="srl" type="radio" id="comingYes" name="coming" value="yes"" /> Yes<br />
+    <input class="srl" type="radio" id="comingNo" name="coming" value="no" onclick="ShowHideOwnGuest()" checked/> No<br />
+    <input class="srl" type="radio" id="comingYes" name="coming" value="yes"  onclick="ShowHideOwnGuest()" /> Yes<br />
     <input type="hidden" name="firstName" id="firstName" value="{{firstName}}" />
     <input type="hidden" name="lastName" id="lastName" value="{{lastName}}" />
     <br />
     <div style="display:{{hasNamedGuest}}">
+        <input type="hidden" name="hasNamedGuest" id="hasNamedGuest" value="{{hasNamedGuest}}" />
         <label for="namedGuestComing">Will {{namedGuestFirst}} {{namedGuestLast}} be attending?</label><br />
         <input class="srl" type="radio" id="namedGuestComing" name="namedGuestComing" value="no" checked/> No<br />
         <input class="srl" type="radio" name="namedGuestComing" value="yes" /> Yes<br />
@@ -23,7 +24,8 @@
         <input type="hidden" name="namedGuestLast" id="namedGuestLast" value="{{namedGuestLast}}" />
         <br />
     </div>
-    <div style="display:{{hasOwnGuest}}">
+    <div id="OwnGuestDiv" style="display:none">
+        <input type="hidden" name="hasOwnGuest" id="hasOwnGuest" value="{{hasOwnGuest}}" />
         <label for="ownGuestNo">Will you be bringing a guest?</label><br />
         <input class="srl" type="radio" id="ownGuestNo" name="ownGuestComing" value="no" onclick="ShowHideGuestFirstLast()" checked /> No<br />
         <input class="srl" type="radio" id="ownGuestYes" name="ownGuestComing" value="yes" onclick="ShowHideGuestFirstLast()"/> Yes<br />
@@ -40,73 +42,80 @@
 </body>
 <script type="text/javascript">
 
-        function ShowHideGuestFirstLast() {
-            ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
-        }
+    function ShowHideGuestFirstLast() {
+        ShowHideDiv("ownGuestYes", "GuestFirstLastDiv");
+    }
 
-        function ShowHideDiv(chkForShowId, divId) {
+    function ShowHideOwnGuest() {
+        ShowHideDiv("comingYes", "OwnGuestDiv");
+    }
 
-            console.log('chkForShowId = ' + chkForShowId);
-            console.log('divId = ' + divId);
+    function ShowHideDiv(chkForShowId, divId) {
 
-            var chkShow = document.getElementById(chkForShowId);
-            console.log('chkShow.checked = ' + chkShow.checked);
-            var div = document.getElementById(divId);
-            div.style.display = chkShow.checked ? "block" : "none";
-            console.log('div.style.display = ' + div.style.display);
-        }
+        console.log('chkForShowId = ' + chkForShowId);
+        console.log('divId = ' + divId);
 
-        $("#rsvpForm").submit(function (event) {
-            /* stop form from submitting normally */
-            event.preventDefault();
+        var chkShow = document.getElementById(chkForShowId);
+        console.log('chkShow.checked = ' + chkShow.checked);
+        var div = document.getElementById(divId);
+        div.style.display = chkShow.checked ? "block" : "none";
+        console.log('div.style.display = ' + div.style.display);
+    }
 
-            console.log('coming = ' + $('input:radio[name=coming]:checked').val());
+    $("#rsvpForm").submit(function (event) {
+        /* stop form from submitting normally */
+        event.preventDefault();
 
-            /* get some values from elements on the page: */
-            var $form = $(this),
-                    $submit = $form.find('button[id="submit2"]'),
-                    rsvpform_value = $form.find('input[name="rsvpForm"]').val(),
-                    guestid_value = $form.find('input[name="guestId"]').val(),
-                    namedguestid_value = $form.find('input[name="namedGuestId"]').val(),
-                    coming_value = $('input:radio[name=coming]:checked').val(),
-                    firstname_value = $form.find('input[name="firstName"]').val(),
-                    lastname_value = $form.find('input[name="lastName"]').val(),
-                    namedguestcoming_value = $('input:radio[name=namedGuestComing]:checked').val(),
-                    namedguestfirst_value = $form.find('input[name="namedGuestFirst"]').val(),
-                    namedguestlast_value = $form.find('input[name="namedGuestLast"]').val(),
-                    ownguestcoming_value = $form.find('input[name="ownGuestComing"]').val(),
-                    ownguestfirstname_value = $form.find('input[name="ownGuestFirstName"]').val(),
-                    ownguestlastname_value = $form.find('input[name="ownGuestLastName"]').val(),
-                    url = $form.attr('action');
+        console.log('coming = ' + $('input:radio[name=coming]:checked').val());
 
-            console.log($form);
+        /* get some values from elements on the page: */
+        var $form = $(this),
+                $submit = $form.find('button[id="submit2"]'),
+                rsvpform_value = $form.find('input[name="rsvpForm"]').val(),
+                guestid_value = $form.find('input[name="guestId"]').val(),
+                namedguestid_value = $form.find('input[name="namedGuestId"]').val(),
+                coming_value = $('input:radio[name=coming]:checked').val(),
+                firstname_value = $form.find('input[name="firstName"]').val(),
+                lastname_value = $form.find('input[name="lastName"]').val(),
+                hasnamedguest_value = $('input:radio[name=hasNamedGuest]:checked').val(),
+                namedguestcoming_value = $('input:radio[name=namedGuestComing]:checked').val(),
+                namedguestfirst_value = $form.find('input[name="namedGuestFirst"]').val(),
+                namedguestlast_value = $form.find('input[name="namedGuestLast"]').val(),
+                hasownguest_value = $('input:hidden[name=hasOwnGuest]').val(),
+                ownguestcoming_value = $('input:radio[name=ownGuestComing]:checked').val(),
+                ownguestfirstname_value = $('input:text[name=ownGuestFirstName]').val(),
+                ownguestlastname_value = $form.find('input[name="ownGuestLastName"]').val(),
+                url = $form.attr('action');
 
-            /* Send the data using post */
-            var posting = $.post(url, {
-                rsvpForm: rsvpform_value,
-                guestId: guestid_value,
-                namedGuestId: namedguestid_value,
-                coming: coming_value,
-                firstName: firstname_value,
-                lastName: lastname_value,
-                namedGuestComing: namedguestcoming_value,
-                namedGuestFirst: namedguestfirst_value,
-                namedGuestLast: namedguestlast_value,
-                ownGuestComing: ownguestcoming_value,
-                ownGuestFirstName: ownguestfirstname_value,
-                ownGuestLastName: ownguestlastname_value
-            });
+        console.log($form);
 
-            posting.done(function (data) {
-                /* Put the results in a div */
-                $("#rsvpResponse").html(data);
-
-                /* Change the button text. */
-                $submit.text('Logged in, Thank you');
-
-                /* Disable the button. */
-                $submit.attr("disabled", true);
-            });
+        /* Send the data using post */
+        var posting = $.post(url, {
+            rsvpForm: rsvpform_value,
+            guestId: guestid_value,
+            namedGuestId: namedguestid_value,
+            coming: coming_value,
+            firstName: firstname_value,
+            lastName: lastname_value,
+            namedGuestComing: namedguestcoming_value,
+            namedGuestFirst: namedguestfirst_value,
+            namedGuestLast: namedguestlast_value,
+            hasOwnGuest: hasownguest_value,
+            ownGuestComing: ownguestcoming_value,
+            ownGuestFirstName: ownguestfirstname_value,
+            ownGuestLastName: ownguestlastname_value
         });
+
+        posting.done(function (data) {
+            /* Put the results in a div */
+            $("#rsvpResponse").html(data);
+
+            /* Change the button text. */
+            $submit.text('Logged in, Thank you');
+
+            /* Disable the button. */
+            $submit.attr("disabled", true);
+        });
+    });
 </script>
 </html>

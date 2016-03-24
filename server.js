@@ -87,14 +87,14 @@ function processRsvp(request, reply) {
             if (payload.namedGuestComing === 'yes') {
                 replyMsg = replyMsg.concat('<br />' + payload.namedGuestFirst + ' ' + payload.namedGuestLast + ' is coming');
             }
-            else {
+            else if (payload.hasNamedGuest === 'yes') {
                 replyMsg = replyMsg.concat('<br />' + payload.namedGuestFirst + ' ' + payload.namedGuestLast + ' is not coming');
             }
 
             if (payload.ownGuestComing === 'yes') {
                 replyMsg = replyMsg.concat('<br />' + payload.ownGuestFirstName + ' ' + payload.ownGuestLastName + ' is coming');
             }
-            else {
+            else if (payload.hasOwnGuest === 'yes') {
                 replyMsg.concat('<br />' + payload.ownGuestFirstName + ' ' + payload.ownGuestLastName + ' is not coming');
             }
 
