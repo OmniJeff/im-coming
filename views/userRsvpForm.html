@@ -4,8 +4,8 @@
 </head>
 <body>
 <h3 class="text-align-center">Hello {{firstName}} {{lastName}}!</h3>
-<!--form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp"-->
-<form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp">
+<form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://im-coming-svc.svc.83afbfba-91f2-6a3d-a306-d587ed8c36fc.us-east-1.triton.zone:8777/JillAndJeffWhite/rsvp">
+<!--form id="rsvpForm" method="POST" enctype="multipart/form-data" action="http://localhost:8777/JillAndJeffWhite/rsvp"-->
     <input type="hidden" name="rsvpForm" value="true" />
     <input type="hidden" name="guestId" value="{{id}}" />
     <input type="hidden" name="namedGuestId" value="{{namedGuestId}}" />
