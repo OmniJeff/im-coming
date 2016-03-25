@@ -101,7 +101,7 @@ function processRsvp(request, reply) {
             console.log('payload.coming = ' + payload.coming);
             console.log('replyMsg = ' + replyMsg);
 
-            Mail('We got an RSVP!', replyMsg.replace('We got your rsvp!', ''), function (err, res) {
+            Mail('We got an RSVP!', replyMsg.replace('We got your rsvp!', ''), Mongo.getMailKey(), function (err, res) {
                 if (err) {
                     console.log(err);
                 }

@@ -6,7 +6,8 @@ const internals = {
     ip: '165.225.130.156',
     db: 'im-coming',
     guestsCollection: null,
-    adminsCollection: null
+    adminsCollection: null,
+    mailKey: null
 };
 
 Mongo.connect('mongodb://' + internals.ip + ':' + internals.port + '/' + internals.db, (err, db) => {
@@ -16,6 +17,12 @@ Mongo.connect('mongodb://' + internals.ip + ':' + internals.port + '/' + interna
     internals.db = db;
     internals.guestsCollection = internals.db.collection('guests');
     internals.adminsCollection = internals.db.collection('admins');
+    internals.mailCollection = internals.db.collection('mail');
+    
+    internals.mailCollection.findOne({}, (err, doc) => {
+        console.log('mailKey = ' + doc.key);
+        internals.mailKey = doc.key;
+    });
 
     module.exports.getAllGuests(function (guests) {
 
@@ -24,6 +31,11 @@ Mongo.connect('mongodb://' + internals.ip + ':' + internals.port + '/' + interna
 });
 
 module.exports = {
+    
+    getMailKey: () => {
+        return internals.mailKey;
+    },
+
     addNewGuest: (guest, callback) => {
 
         // TODO: Assert firstName and lastName exist
